@@ -1,12 +1,13 @@
 import React from 'react';
 import BookItem from './BookItem';
+import { Link } from 'react-router-dom';
 
-const BookSearch = ({searchText, handleChange, close, books}) => {
+const BookSearch = ({changeBookStatus, searchText, searchResults, searchBook, clearSearch}) => {
 
   return ( 
     <div className="search-books">
       <div className="search-books-bar">
-        <button className="close-search" onClick={close}>Close</button>
+        <Link to="/" onClick={clearSearch}><button className="close-search"></button></Link>
         <div className="search-books-input-wrapper">
           {/*
             NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -16,24 +17,24 @@ const BookSearch = ({searchText, handleChange, close, books}) => {
             However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
             you don't find a specific author or title. Every search is limited by search terms.
           */}
-          <input type="text" placeholder="Search by title or author" val={searchText} onChange={handleChange} />
+          <input type="text" placeholder="Search by title or author" value={searchText} onChange={searchBook} />
 
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {books.map(book => (
+          {searchResults.map(book => (
             <BookItem 
               key={book.id} 
-              status='none' 
-              title={book.title} 
-              imgLinks={book.imageLinks}
-              authors={book.authors} />
+              book={book}
+              changeBookStatus={changeBookStatus} />
           ))}
         </ol>
       </div>
     </div>
   );
+
 }
+
  
 export default BookSearch;

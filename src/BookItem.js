@@ -1,14 +1,23 @@
 import React from 'react';
 
-const BookItem = ({imgLinks, status, title, authors}) => {
-  return ( 
+const BookItem = ({book, changeBookStatus}) => {
+
+  const formatAuthors = () => {
+    if (book.authors) {
+      return book.authors.join(', ');
+    }
+
+    return book.authors;
+  }
+
+  return (
     <div className="book">
       <div className="book-top">
-        {imgLinks && 
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${imgLinks.thumbnail}")` }}></div>
+        {book.imageLinks && 
+          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
         }
         <div className="book-shelf-changer">
-          <select value={status}>
+          <select value={book.shelf} onChange={changeBookStatus(book)}>
             <option value="move" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
@@ -17,9 +26,9 @@ const BookItem = ({imgLinks, status, title, authors}) => {
           </select>
         </div>
       </div>
-      <div className="book-title">{title}</div>
+      <div className="book-title">{book.title}</div>
       <div className="book-authors">
-        {authors}
+        {formatAuthors()}
       </div>
     </div>
   );
